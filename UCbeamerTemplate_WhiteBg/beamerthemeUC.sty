@@ -1,0 +1,104 @@
+\mode<presentation>
+
+% Requirements
+\RequirePackage[utf8]{inputenc}
+%\RequirePackage[T1]{fontenc}
+\RequirePackage[defaultfam,tabular,lining]{montserrat}
+
+\RequirePackage{tikz}
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+    decorations.pathreplacing,decorations.pathmorphing,shapes,%
+    matrix,shapes.symbols}
+
+\tikzset{
+>=stealth',
+  punktchain/.style={
+    rectangle, 
+    rounded corners, 
+    fill=UClight!10,
+    draw=white, very thick,
+    text width=6em, 
+    minimum height=1em, 
+    text centered, 
+    on chain},
+  line/.style={draw, thick, <-},
+  element/.style={
+    tape,
+    top color=white,
+    bottom color=blue!50!black!60!,
+    minimum width=1.5em,
+    draw=blue!40!black!90, very thick,
+    text width=6em, 
+    minimum height=1em, 
+    text centered, 
+    on chain},
+  every join/.style={->, thick,shorten >=1pt},
+  decoration={brace},
+  tuborg/.style={decorate},
+  tubnode/.style={midway, right=2pt},
+}
+
+\RequirePackage[absolute,overlay]{textpos}
+
+\RequirePackage{csquotes}
+\RequirePackage[english]{babel}
+
+\RequirePackage{silence}
+\WarningFilter{biblatex}{Patching footnotes failed}
+\RequirePackage[backend=bibtex,style=ieee,bibencoding=utf8]{biblatex}
+\setbeamerfont{footnote}{size=\tiny}
+
+\def\insertpageratio{%
+    \pgfmathparse{(\insertpagenumber-1)*100/(\insertdocumentendpage-1)}%
+    \pgfmathprintnumber[fixed,precision=2]{\pgfmathresult}\,\% %
+}
+
+% Settings
+\useinnertheme{UC}
+\useoutertheme{UC}
+\usecolortheme{UC}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\renewcommand*{\footnoterule}{}
+
+%cambia el formato de la nota a [numero]
+\addtobeamertemplate{footnote}{\hsize 11cm}{}
+\makeatletter
+    \def\@makefnmark{\hbox{{{\usebeamercolor[fg]{footnote mark}\usebeamerfont*{footnote mark} [\@thefnmark]}}}}
+
+    \def\@makefntext#1{%
+        \def\insertfootnotetext{ #1}%
+        \def\insertfootnotemark{\@makefnmark}%
+        \usebeamertemplate***{footnote}}
+\makeatother
+
+%Elimina campos de la bibliografía
+\AtEveryCitekey{%
+\clearfield{note}%
+\clearfield{doi}%
+}
+
+%Incluye fondo a TOC con imagen del campus
+\let\oldtableofcontents\tableofcontents %definicion antigua
+\renewcommand\tableofcontents{
+	\begin{minipage}[t][0.6\textheight]{0.6\textwidth}
+		\vspace{0pt} 
+		\oldtableofcontents[subsectionstyle=show/hide/hide] %use la definicion anterior
+	\end{minipage}
+	\begin{minipage}[t]{0.35\textwidth} 
+		\vspace{0.3\paperheight}
+		\begin{tikzpicture}
+			\node[anchor=south west,inner sep=0] (B) at (0,0) {\includegraphics[width=.95\textwidth]{./templateImages/lasllamas.jpg}};
+			\fill [draw=none, fill=white, fill opacity=0.6] (B.north west) -- (B.north east) -- (B.south east) -- (B.south west) -- (B.north west) -- cycle;
+		\end{tikzpicture}
+	\end{minipage}
+}
+
+%Define grupo y website para la portada
+\newcommand\insertgroup{}
+\newcommand\group[1]{\renewcommand\insertgroup{#1}}
+\newcommand\insertwebsite{}
+\newcommand\website[1]{\renewcommand\insertwebsite{#1}}
+
+\mode<all>
