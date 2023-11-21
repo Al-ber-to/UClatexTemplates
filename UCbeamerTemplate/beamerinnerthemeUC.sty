@@ -75,7 +75,11 @@
 			\vspace{0.3\paperheight}
 			\begin{tikzpicture}
 				\node[anchor=south west,inner sep=0] (B) at (0,0) {\includegraphics[width=.95\textwidth]{\beamer@UC@imagen}};
-				\fill [draw=none, fill=white, fill opacity=0.6] (B.north west) -- (B.north east) -- (B.south east) -- (B.south west) -- (B.north west) -- cycle;
+				\ifx\beamer@UC@estilo\beamer@UC@estiloOscuro%
+					\fill [draw=none, fill=UCdark, fill opacity=0.6] (B.north west) -- (B.north east) -- (B.south east) -- (B.south west) -- (B.north west) -- cycle;
+				\else
+					\fill [draw=none, fill=white, fill opacity=0.6] (B.north west) -- (B.north east) -- (B.south east) -- (B.south west) -- (B.north west) -- cycle;
+				\fi
 			\end{tikzpicture}
 		\end{minipage}
 	}
