@@ -1,0 +1,85 @@
+%\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerthemeUC}[21/11/2023 - Tema UC v0.2]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%
+% Paquetes requeridos %
+%%%%%%%%%%%%%%%%%%%%%%%
+
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[defaultfam,tabular,lining]{montserrat}
+
+\RequirePackage{tikz}
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+    decorations.pathreplacing,decorations.pathmorphing,shapes,%
+    matrix,shapes.symbols}
+\tikzset{
+>=stealth',
+  punktchain/.style={
+    rectangle, 
+    rounded corners, 
+    fill=UClight!10,
+    draw=white, very thick,
+    text width=6em, 
+    minimum height=1em, 
+    text centered, 
+    on chain},
+  line/.style={draw, thick, <-},
+  element/.style={
+    tape,
+    top color=white,
+    bottom color=blue!50!black!60!,
+    minimum width=1.5em,
+    draw=blue!40!black!90, very thick,
+    text width=6em, 
+    minimum height=1em, 
+    text centered, 
+    on chain},
+  every join/.style={->, thick,shorten >=1pt},
+  decoration={brace},
+  tuborg/.style={decorate},
+  tubnode/.style={midway, right=2pt},
+}		
+
+\RequirePackage[absolute,overlay]{textpos}
+
+\RequirePackage{csquotes}
+\RequirePackage[spanish]{babel}
+
+\RequirePackage{silence}
+\WarningFilter{biblatex}{Patching footnotes failed}
+\RequirePackage[backend=bibtex,style=ieee,bibencoding=utf8]{biblatex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Opciones del tema y definiciones %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setbeamerfont{footnote}{size=\tiny}
+
+\DeclareOptionBeamer{estilo}{%
+	\PassOptionsToPackage{estilo=#1}{beamercolorthemeUC}%
+	\PassOptionsToPackage{estilo=#1}{beamerouterthemeUC}%
+	\PassOptionsToPackage{estilo=#1}{beamerinnerthemeUC}%
+}
+\ExecuteOptionsBeamer{estilo=claro}%por defecto
+
+\DeclareOptionBeamer{imagen}{%
+	\PassOptionsToPackage{imagen=#1}{beamerinnerthemeUC}%
+}%
+\ExecuteOptionsBeamer{imagen=./templateImages/lasllamas.jpg}%por defecto
+
+\ProcessOptionsBeamer
+
+%Define grupo y website para la portada
+\newcommand\insertgroup{}
+\newcommand\group[1]{\renewcommand\insertgroup{#1}}
+\newcommand\insertwebsite{}
+\newcommand\website[1]{\renewcommand\insertwebsite{#1}}
+
+\mode<presentation>
+{
+	\useinnertheme{UC}
+	\useoutertheme{UC}
+	\usecolortheme{UC}
+}
+\mode<all>

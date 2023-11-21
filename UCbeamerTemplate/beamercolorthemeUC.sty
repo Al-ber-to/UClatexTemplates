@@ -1,0 +1,41 @@
+\mode<presentation>
+
+\DeclareOptionBeamer{estilo}{\def\beamer@UC@estilo{#1}}
+\ExecuteOptionsBeamer{estilo=claro}%por defecto
+\ProcessOptionsBeamer
+
+\def\beamer@UC@estiloOscuro{oscuro}%empleado para la comparacion
+
+%colores UC
+\definecolor{UClight}{rgb}{0,0.616,0.667}
+\definecolor{UCdark}{rgb}{0,0.361,0.392}
+\definecolor{UCorange}{rgb}{0.996,0.529,0.063}
+
+%depende del fondo seleccionado
+\ifx\beamer@UC@estilo\beamer@UC@estiloOscuro%
+	\setbeamercolor{normal text}{fg=white,bg=UCdark}%
+	\setbeamercolor*{author}{fg=white}%
+	\setbeamercolor*{date}{fg=white}%
+	\setbeamercolor*{item}{fg=UClight}%
+	%bibliografia
+	\setbeamercolor{bibliography entry author}{fg=white}%
+	\setbeamercolor{bibliography entry title}{fg=white}%
+	\setbeamercolor{bibliography entry note}{fg=white}%
+	%Subsecciones
+	\setbeamercolor{section in toc}{fg=white}%
+	\setbeamercolor{subsection in toc}{fg=UClight}%
+\else%
+	\setbeamercolor{normal text}{fg=UCdark,bg=white}%
+	\setbeamercolor*{author}{fg=UCdark}%
+	\setbeamercolor*{date}{fg=UClight}%
+	\setbeamercolor*{item}{fg=UCdark}%
+	%bibliografia
+	\setbeamercolor{bibliography entry author}{fg=UCdark}%
+	\setbeamercolor{bibliography entry title}{fg=UCdark}%
+	\setbeamercolor{bibliography entry note}{fg=UCdark}%
+	%Subsecciones
+	\setbeamercolor{section in toc}{fg=UCdark}%
+	\setbeamercolor{subsection in toc}{fg=UClight}%
+\fi%
+
+\mode<all>

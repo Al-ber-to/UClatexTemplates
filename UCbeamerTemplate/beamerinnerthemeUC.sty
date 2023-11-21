@@ -1,0 +1,106 @@
+%\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{beamerinnerthemeUC}[21/11/2023 - Tema UC v0.2]
+
+\mode<presentation>
+
+\DeclareOptionBeamer{estilo}{\def\beamer@UC@estilo{#1}}
+\ExecuteOptionsBeamer{estilo=claro}%por defecto
+\DeclareOptionBeamer{imagen}{\def\beamer@UC@imagen{#1}}
+
+\ProcessOptionsBeamer
+
+\def\beamer@estiloOscuro{oscuro}%empleado para la comparacion
+
+\setbeamertemplate{background}{
+  \begin{tikzpicture}[remember picture, overlay]
+	%mas logotipos (hasta 5), si existen, bajo el de la UC.
+	\newcommand\disLogos{0.05}
+	\ifnum\thepage=1\relax
+		\ifx\beamer@UC@estilo\beamer@UC@estiloOscuro%
+			\node [anchor=north west] (logo1) at ($(current page.north west)+(0,0)$) {\includegraphics[height=1cm,keepaspectratio]{./templateImages/UC_Logotipo_Blanco.png}};
+		\else
+			\node [anchor=north west] (logo1) at ($(current page.north west)+(0,0)$) {\includegraphics[height=1cm,keepaspectratio]{./templateImages/UC_LogotipoPrincipal.png}};
+		\fi
+			\foreach \index [count=\xi] in {2, ..., 6} {%
+					\IfFileExists{Logo\index.pdf}{%
+							\node [anchor=west, inner sep=0] (logo\index) at ($(logo\xi.0)+(\disLogos,0)$) {\includegraphics[height=1cm,keepaspectratio]{Logo\index.pdf}}
+							}{};
+					\IfFileExists{Logo\index.png}{%
+							\node [anchor=west, inner sep=0] (logo\index) at ($(logo\xi.0)+(\disLogos,0)$) {\includegraphics[height=1cm,keepaspectratio]{Logo\index.png}}
+							}{};
+					\IfFileExists{Logo\index.jpg}{%
+							\node [anchor=west, inner sep=0] (logo\index) at ($(logo\xi.0)+(\disLogos,0)$) {\includegraphics[height=1cm,keepaspectratio]{Logo\index.jpg}}
+							}{};
+			}
+			\shade[left color=UCdark,right color=UClight] ($(current page.west)+(0,-0.25\paperheight)$) rectangle ++(\paperwidth,0.25\paperheight);
+		\shade[left color=white,right color=UCdark] ($(current page.west)+(0,-0.25\paperheight)$) rectangle ++(\paperwidth,-0.75mm);
+	\fi
+  \end{tikzpicture}
+}
+
+% Title page
+\defbeamertemplate*{title page}{UC}[1][]
+{ 
+	\begin{tikzpicture}[remember picture, overlay]
+		\node [anchor=north west, align=flush left, text width=0.8\paperwidth] at ($(current page.west)+(0,-0.125\paperheight)$) {\Large\color{white}\textbf{\inserttitle}};
+		\node [anchor=south east, align=flush right, text width=11cm] at (current page.east) {\footnotesize\textit{\color{UClight}\insertdate}};
+		\node [anchor=south east, align=flush right,inner sep=0](ws) at ($(current page.south east)+(-0.1,0.1)$) {\tiny\color{UClight}\textbf{\textsc{\url{\insertwebsite}}}\par};
+		\node [anchor=south east, align=flush right,inner sep=0](inst) at (ws.north east) {\tiny\color{UClight}\textbf{\textsc{\insertinstitute}}\par};
+		\node [anchor=south east, align=flush right,inner sep=0](gr) at (inst.north east) {\tiny\color{UClight}\textbf{\textit{\insertgroup}}\par};
+		
+		\ifx\beamer@UC@estilo\beamer@UC@estiloOscuro%
+				\node [anchor=north east, align=flush right](auth) at ($(current page.west)+(0,-0.25\paperheight)+(\paperwidth,-0.75mm)$) {\scriptsize\color{white}\insertauthor};
+		\else%
+				\node [anchor=north east, align=flush right](auth) at ($(current page.west)+(0,-0.25\paperheight)+(\paperwidth,-0.75mm)$) {\scriptsize\color{UCdark}\insertauthor};
+		\fi%
+		
+	\end{tikzpicture}
+	
+}
+
+%Tabla de contenidos
+
+\setbeamertemplate{items}[square]
+\setbeamertemplate{sections/subsections in toc}[square]
+
+%Incluye fondo a TOC con imagen del campus
+\IfFileExists{\beamer@UC@imagen}{%
+	\let\oldtableofcontents\tableofcontents %definicion antigua
+	\renewcommand\tableofcontents{%
+		\begin{minipage}[t][0.6\textheight]{0.6\textwidth}
+			\vspace{0pt} 
+			\oldtableofcontents[subsectionstyle=show/hide/hide] %use la definicion anterior
+		\end{minipage}
+		\begin{minipage}[t]{0.35\textwidth} 
+			\vspace{0.3\paperheight}
+			\begin{tikzpicture}
+				\node[anchor=south west,inner sep=0] (B) at (0,0) {\includegraphics[width=.95\textwidth]{\beamer@UC@imagen}};
+				\fill [draw=none, fill=white, fill opacity=0.6] (B.north west) -- (B.north east) -- (B.south east) -- (B.south west) -- (B.north west) -- cycle;
+			\end{tikzpicture}
+		\end{minipage}
+	}
+}{}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{blocks}[rounded][shadow=true]
+
+\renewcommand*{\footnoterule}{}
+
+%cambia el formato de la nota a [numero]
+\addtobeamertemplate{footnote}{\hsize 11cm}{}
+\makeatletter
+    \def\@makefnmark{\hbox{{{\usebeamercolor[fg]{footnote mark}\usebeamerfont*{footnote mark} [\@thefnmark]}}}}
+
+    \def\@makefntext#1{%
+        \def\insertfootnotetext{ #1}%
+        \def\insertfootnotemark{\@makefnmark}%
+        \usebeamertemplate***{footnote}}
+\makeatother
+
+%Elimina campos de la bibliografía
+\AtEveryCitekey{%
+\clearfield{note}%
+\clearfield{doi}%
+}
+
+\mode<all>

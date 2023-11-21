@@ -1,0 +1,68 @@
+\mode<presentation>
+
+\DeclareOptionBeamer{estilo}{\def\beamer@UC@estilo{#1}}
+\ExecuteOptionsBeamer{estilo=claro}%por defecto
+\ProcessOptionsBeamer
+
+\def\beamer@estiloOscuro{oscuro}%empleado para la comparacion
+
+
+% Frame title
+\defbeamertemplate*{frametitle}{UC}[1][]
+{
+	
+	\ifx\insertframesubtitle\@empty%
+	{
+	\begin{tikzpicture}[remember picture, overlay]
+		\ifx\beamer@UC@estilo\beamer@UC@estiloOscuro%
+			\shade[left color=UCdark,right color=UClight] ($(current page.north west)+(0,-1)$) rectangle ++(\paperwidth,1);
+			%\shade[left color=UClight,right color=white] ($(current page.north west)+(0.6\paperwidth,-1)$) rectangle ++(0.4\paperwidth,1);
+			\shade[left color=white,right color=UCdark] ($(current page.north west)+(0,-1)$) rectangle ++(\paperwidth,-0.75mm);
+			\node [anchor=north east, align=flush right, text width=11.1cm,inner sep=0] at ($(current page.north east)+(-0.1,-1)+(0,-0.75mm)$) {
+			\tiny\textbf{\textsc{\color{UClight}\inserttitle}} {\color{white} - \insertpagenumber/\insertdocumentendpage}% - \insertpageratio}
+		};%
+		\else%
+			\shade[left color=UClight,right color=UCdark] ($(current page.north west)+(0,-1)$) rectangle ++(\paperwidth,1);%
+			\shade[left color=UCdark,right color=white] ($(current page.north west)+(0,-1)$) rectangle ++(\paperwidth,-0.75mm);%
+			\node [anchor=north east, align=flush right, text width=11.1cm,inner sep=0] at ($(current page.north east)+(-0.1,-1)+(0,-0.75mm)$) {
+			\tiny\textbf{\textsc{\color{UCdark}\inserttitle}} {\color{UClight} - \insertpagenumber/\insertdocumentendpage}% - \insertpageratio}
+		};%
+		\fi%
+		
+		\node [anchor=north east,inner sep=0] (logo1) at (current page.north east) {\includegraphics[height=1cm,keepaspectratio]{./templateImages/UC_LogotipoVReducida-02_blanco.png}};		
+		\node [anchor=west,text width=10cm] at ($(current page.north west)+(0.1,-0.5)$) {\Large\color{white}\insertframetitle};
+		
+	\end{tikzpicture}
+	}
+	\else
+	{
+	\begin{tikzpicture}[remember picture, overlay]
+		\ifx\beamer@UC@estilo\beamer@UC@estiloOscuro%
+			\shade[left color=UCdark,right color=UClight] ($(current page.north west)+(0,-1)$) rectangle ++(\paperwidth,1);%
+			%\shade[left color=UClight,right color=white] ($(current page.north west)+(0.6\paperwidth,-1)$) rectangle ++(0.4\paperwidth,1);
+			\shade[left color=white,right color=UCdark] ($(current page.north west)+(0,-1)$) rectangle ++(\paperwidth,-0.75mm);%
+			\node [anchor=north west,text width=10cm,inner sep=1] at ($(current page.north west)+(0.1,-0.5)$) {\small\textbf{\color{UClight}\insertframesubtitle}};%
+			\node [anchor=north east, align=flush right, text width=11.1cm,inner sep=0] at ($(current page.north east)+(-0.1,-1)+(0,-0.75mm)$) {
+			\tiny\textbf{\textsc{\color{UClight}\inserttitle}} {\color{white} - \insertpagenumber/\insertdocumentendpage}% - \insertpageratio}
+		};%
+		\else%
+			\shade[left color=UClight,right color=UCdark] ($(current page.north west)+(0,-1)$) rectangle ++(\paperwidth,1);%
+			\shade[left color=UCdark,right color=white] ($(current page.north west)+(0,-1)$) rectangle ++(\paperwidth,-0.75mm);%
+			\node [anchor=north west,text width=10cm,inner sep=1] at ($(current page.north west)+(0.1,-0.5)$) {\small\textbf{\color{UCdark}\insertframesubtitle}};%
+			\node [anchor=north east, align=flush right, text width=11.1cm,inner sep=0] at ($(current page.north east)+(-0.1,-1)+(0,-0.75mm)$) {
+			\tiny\textbf{\textsc{\color{UCdark}\inserttitle}} {\color{UClight} - \insertpagenumber/\insertdocumentendpage}% - \insertpageratio}
+		};%
+		\fi%
+		
+		\node [anchor=north east,inner sep=0] (logo1) at (current page.north east) {\includegraphics[height=1cm,keepaspectratio]{./templateImages/UC_LogotipoVReducida-02_blanco.png}};	
+		\node [anchor=south west,text width=10cm,inner sep=1] at ($(current page.north west)+(0.1,-0.5)$) {\Large\color{white}\insertframetitle};
+		
+
+		
+	\end{tikzpicture}
+	}
+	\fi
+	\vspace{0.3cm}
+}
+
+\mode<all>
